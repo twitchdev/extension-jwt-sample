@@ -1,0 +1,4 @@
+vendor/
+/cert.pem
+/key.pem
+/jwt

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://extension-files.twitch.tv/helper/v1/twitch-ext.min.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript">
+          var token = "";
+          
+          var twitch = window.Twitch.ext;
+
+          twitch.onAuthorized(function(auth) {
+            token = auth.token; 
+            twitch.rig.log("onAuthorized() fired, received JWT: " + token)
+          });
+
+          twitch.listen('broadcast', function(topic, contentType, message) {
+            twitch.rig.log("listen() fired, received PubSub message: " + message)
+          });
+
+          function ping() {
+            twitch.rig.log("button clicked, pinging https://localhost:8081/api/ping")
+            fetch('https://localhost:8081/api/ping', {
+              method: 'get', 
+              headers: new Headers({
+                'Authorization': 'Bearer ' + token,
+              })
+            })
+          }
+        
+        </script>    
+        <button onclick="ping()">
+            Ping
+        </button>
+    </body>
+</html>
